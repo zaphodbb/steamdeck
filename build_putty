@@ -1,0 +1,26 @@
+mkdir ~/git
+cd ~/git
+git clone https://git.tartarus.org/simon/putty.git
+
+sudo steamos-readonly disable
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman -S glibc linux-api-headers cmake
+sudo pacman -S gtk3 glib2 pango harfbuzz cairo gdk-pixbuf2 atk
+sudo steamos-readonly anable
+
+cd ~/git/putty
+git pull
+cmake .
+cmake --build .
+
+cp putty ~/bin
+cp puttygen ~/bin
+cp pscp ~/bin
+cp plink ~/bin
+cp pagent ~/bin
+
+~/bin/puttygen -t ed25519 -C "Sean Steamdeck" -o ~/.ssh/putty
+echo "$(~/bin/puttygen ~/.ssh/putty -p -O public-openssh))" >> ~/.ssh/authorized_keys
+
+
